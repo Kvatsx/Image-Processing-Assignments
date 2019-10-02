@@ -15,7 +15,8 @@ Image = cv2.imread("cameramanimage_22843.tif")
 cv2.imwrite("Original.png", Image)
 # Image = cv2.imread("temp.png")
 Output = np.zeros((Image.shape[0], Image.shape[1], 3), dtype=np.uint8)
-Size = Image.shape
+Output2 = np.zeros((Image.shape[0], Image.shape[1], 3), dtype=np.uint8)
+Size = Output.shape
 
 # U = np.asarray([[10, 15, 1],[8, 3, 1],[11, 17, 1]])
 # U = np.asarray([[10, 15],[8, 3],[11, 17], [5, 11], [6, 13]])
@@ -31,31 +32,29 @@ print("Transformation Matrix")
 print(T)
 
 # To show mapping of the pixels.
-# for i in range(Size[0]):
-#     for j in range(Size[1]):
-#         xyz = np.matmul(np.asarray([i, j, 1]), T)
-#         for k in range(Size[2]):
-#             if (int(xyz[0]) < Size[0] and int(xyz[0]) >= 0 and int(xyz[1]) < Size[1] and int(xyz[1]) >= 0):
-#                 Output[int(xyz[0]), int(xyz[1]), k] = Image[i, j, k]
+for i in range(Image.shape[0]):
+    for j in range(Image.shape[1]):
+        xyz = np.matmul(np.asarray([i, j, 1]), T)
+        for k in range(Size[2]):
+            if (int(round(xyz[0])) < Size[0] and int(round(xyz[0])) >= 0 and int(round(xyz[1])) < Size[1] and int(round(xyz[1])) >= 0):
+                Output[int(round(xyz[0])), int(round(xyz[1])), k] = Image[i, j, k]
 
-
-cv2.imwrite("TranformedImage2.jpg", Output)
-
+# cv2.imwrite("TranformedImage2.jpg", Output)
 
 # print(T[:, :2].T)
-Output = cv2.warpAffine(Image, T[:, :2].T, (Size[0], Size[1]))
+# Output = cv2.warpAffine(Image, T[:, :2].T, (Size[0], Size[1]))
 Output = cv2.resize(Output, Output.shape[:2], interpolation=cv2.INTER_CUBIC)
 cv2.imwrite("TranformedImage.jpg", Output)
 
 T = np.linalg.inv(T)
 
-# for i in range(Size[0]):
-#     for j in range(Size[1]):
-#         xyz = np.matmul(np.asarray([i, j, 1]), T)
-#         for k in range(Size[2]):
-#             if (int(xyz[0]) < Size[0] and int(xyz[0]) >= 0 and int(xyz[1]) < Size[1] and int(xyz[1]) >= 0):
-#                 Output[int(xyz[0]), int(xyz[1]), k] = Image[i, j, k]
+for i in range(Output.shape[0]):
+    for j in range(Output.shape[1]):
+        xyz = np.matmul(np.asarray([i, j, 1]), T)
+        for k in range(Size[2]):
+            if (int(round(xyz[0])) < Size[0] and int(round(xyz[0])) >= 0 and int(round(xyz[1])) < Size[1] and int(round(xyz[1])) >= 0):
+                Output2[int(round(xyz[0])), int(round(xyz[1])), k] = Output[i, j, k]
 
-Output2 = cv2.warpAffine(Output, T[:, :2].T, (Size[0], Size[1]))
+# Output2 = cv2.warpAffine(Output, T[:, :2].T, (Size[0], Size[1]))
 Output2 = cv2.resize(Output2, Output2.shape[:2], interpolation=cv2.INTER_CUBIC)
 cv2.imwrite("TranformedImage2.jpg", Output2)

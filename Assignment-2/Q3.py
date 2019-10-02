@@ -14,7 +14,7 @@ import math
 Image = cv2.imread("Chandrayaan2 - Q3a-inputimage.png", 0)
 Image = Image.astype(float)
 print("Image.shape", Image.shape)
-# Kernel = np.ones((7, 7), dtype=np.float32) / 49
+Kernel = np.ones((7, 7), dtype=np.float32) / 49
 
 def AvgFilter(Image, kSizeX, kSizeY):
     Result = np.zeros((Image.shape[0], Image.shape[1]))
