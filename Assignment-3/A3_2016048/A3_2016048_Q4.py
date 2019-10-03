@@ -30,8 +30,8 @@ W_Pad[0:3, 0:3] = W[:, :]
 I_fft = np.fft.fft2(I_Pad)
 W_fft = np.fft.fft2(W_Pad)
 
-I_fft = np.fft.fftshift(I_fft)
-W_fft = np.fft.fftshift(W_fft)
+# I_fft = np.fft.fftshift(I_fft)
+# W_fft = np.fft.fftshift(W_fft)
 
 H = np.multiply(W_fft, I_fft)
 
@@ -39,7 +39,7 @@ Sub = I_fft - H
 
 Sub += I_fft
 
-Sub = np.fft.ifftshift(Sub)
+# Sub = np.fft.ifftshift(Sub)
 
 Final = np.fft.ifft2(Sub)
 

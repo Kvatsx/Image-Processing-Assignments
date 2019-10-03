@@ -51,17 +51,24 @@ I_Pad = np.zeros((5, 5), dtype=np.float64)
 I_Pad[:3, :3] = I[:, :]
 W_Pad = rot(W)
 print(W_Pad)
+print()
 
 I_fft = np.fft.fft2(I_Pad)
 W_fft = np.fft.fft2(W_Pad)
 
+# I_fft = np.fft.fftshift(I_fft)
+# W_fft = np.fft.fftshift(W_fft)
+
 H = np.multiply(I_fft, W_fft)
+
+# H = np.fft.ifftshift(H)
 
 Final = np.fft.ifft2(H)
 
 Final = np.real(Final)
+print(Final)
+print()
 
-# Final = inv_rot(Final)
-
+Final = inv_rot(Final)
 print(Final)
 
